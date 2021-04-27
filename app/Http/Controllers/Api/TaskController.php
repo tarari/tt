@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Task;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends BaseController
 {
@@ -48,19 +50,25 @@ class TaskController extends BaseController
      */
     public function show($id)
     {
-        //
+        $task=Task::find($id);
+
+        if (!$task) {
+            return $this->sendError('Task not found');
+        }else{
+            return $this->sendResponse($task,'Task found!');
+        }
+
+    }
+    function taskByUser(){
+        $user=Auth::user();
+        $tasks=$user->tasks;
+
+        if($tasks){
+            return $this->sendResponse($tasks,"List of tasks for {$user->name}");
+        }
+        return $this->sendError('Not tasks yet',['No tasks']);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

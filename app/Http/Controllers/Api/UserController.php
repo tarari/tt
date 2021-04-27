@@ -12,7 +12,17 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends BaseController
 {
+    public function index(){
+        $users=User::all();
+        if($users){
+            return $this->sendResponse(User::all(),"List of Users");
+        }
+        else {
+            return $this->sendError('Not users',['Not users']);
+        }
 
+
+    }
     public function register(Request $request){
         $dataValidated=$request->validate([
             'name' => 'required|min:3',
@@ -46,9 +56,7 @@ class UserController extends BaseController
             return $this->sendError('Unathorized',['error'=>'Unauthorized']);
         }
     }
-    public function users(Request $request){
 
-    }
 
     public function update(Request $request, $id){
         $user=User::find($id);
@@ -71,4 +79,5 @@ class UserController extends BaseController
         }
 
     }
+
 }

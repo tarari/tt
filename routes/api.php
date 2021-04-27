@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:api')->group(function(){
     Route::resource('task',TaskController::class);
+    Route::get('user',[UserController::class,'index']);
+    Route::get('task',[TaskController::class,'index']);
+    Route::get('user/task',[TaskController::class,'taskByUser']);
     Route::resource('user',UserController::class);
 });
 
